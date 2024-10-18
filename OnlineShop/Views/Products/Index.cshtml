@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Shop.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css">
+    <style>
+        body {
+            margin-bottom: 60px;
+            background: url('../css/page-0003.jpg') no-repeat center center;
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .product-card {
+            width: 30%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        .product-info h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+        }
+
+        .button {
+            background-color: #403F3F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #D9D9D9;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    <p>
+        <a asp-action="Create" class="button">Create New</a>
+    </p>
+
+    <div class="product-container">
+        @foreach (var item in Model)
+        {
+            <div class="product-card">
+                <div class="product-info">
+                    <img src="@item.Image" alt="Image" />
+                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p>Price: @Html.DisplayFor(modelItem => item.Price) $</p>
+                    <p>Weight: @Html.DisplayFor(modelItem => item.Weight) kg</p>
+                    <p>In Stock: @Html.DisplayFor(modelItem => item.StockQuantity)</p>
+                    <p>Brand: @Html.DisplayFor(modelItem => item.Brand.Name)</p>
+                    <p>Category: @Html.DisplayFor(modelItem => item.Category.Name)</p>
+                    <p>Last Edited: @Html.DisplayFor(modelItem => item.LastEdited)</p>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="button">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" class="button">Details</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="button">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

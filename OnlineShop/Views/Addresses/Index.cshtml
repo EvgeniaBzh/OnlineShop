@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Shop.Models.Address>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Settlement)  <!-- Changed to model.First() -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Street)  <!-- Changed to model.First() -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().HouseNumber)  <!-- Changed to model.First() -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ApartmentNumber)  <!-- Changed to model.First() -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().ZipCode)  <!-- Changed to model.First() -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().LastEdited)  <!-- Corrected from LastEditted to LastEdited -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().IsDeleted)  <!-- Changed to model.First() -->
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.IsDeleted ? "text-muted" : "")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Settlement)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HouseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApartmentNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastEdited) 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td>
+                    @if (!item.IsDeleted)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                    else
+                    {
+                        <form asp-action="Undo" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-warning">Undo</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

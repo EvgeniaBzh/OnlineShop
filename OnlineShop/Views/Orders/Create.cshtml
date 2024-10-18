@@ -1,0 +1,109 @@
+﻿@using Shop.Models
+@model Shop.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippingDate" class="control-label"></label>
+                <input asp-for="ShippingDate" class="form-control" />
+                <span asp-validation-for="ShippingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippingAddressId" class="control-label"></label>
+                <select asp-for="ShippingAddressId" class="form-control" asp-items="ViewBag.ShippingAddressId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    @foreach (OrderStatus status in Enum.GetValues(typeof(OrderStatus))) 
+                    {
+                        <option value="@status">@status</option>
+                    }
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentId" class="control-label"></label>
+                <select asp-for="PaymentId" class="form-control" asp-items="ViewBag.PaymentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourierId" class="control-label"></label>
+                <select asp-for="CourierId" class="form-control" asp-items="ViewBag.CourierId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiscountCode" class="control-label"></label>
+                <input asp-for="DiscountCode" class="form-control" />
+                <span asp-validation-for="DiscountCode" class="text-danger"></span>
+            </div>
+
+            <div id="productSelection">
+                <h5>Products</h5>
+                <div class="form-group">
+                    <label>Product</label>
+                    <select name="ProductIds[]" class="form-control">
+                        @foreach (var item in ViewBag.ProductList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <label>Quantity</label>
+                    <input type="number" name="Quantities[]" class="form-control" value="1" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary" id="addProduct">Add Another Product</button>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('addProduct').addEventListener('click', function () {
+            var productSelection = document.getElementById('productSelection');
+            var newProduct = document.createElement('div');
+            newProduct.classList.add('form-group');
+            newProduct.innerHTML = `
+                                <label>Product</label>
+                                <select name="ProductIds[]" class="form-control">
+                                    ${document.querySelector('select[name="ProductIds[]"]').innerHTML}
+                                </select>
+                                <label>Quantity</label>
+                                <input type="number" name="Quantities[]" class="form-control" value="1" />
+                            `;
+            productSelection.appendChild(newProduct);
+        });
+    </script>
+}
